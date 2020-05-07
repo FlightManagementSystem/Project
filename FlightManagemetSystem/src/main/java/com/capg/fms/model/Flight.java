@@ -1,22 +1,42 @@
 package com.capg.fms.model;
 
-public class Flight {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
+@Entity
+@Table(name = "Flights")
+public class Flight {
+	
+	/**
+	 * 
+	 */
+
+	@Id
+	@Size(min = 5, max = 10)
+	@Column(name="Flight_Number")
 	private long flightNumber;
-	private String flightModel;
+	@Column(name="Carrier_Name")
 	private String carrierName;
+	@Column(name="Seat_Capacity")
 	private int seatCapacity;
 	
-	public Flight(long flightNumber, String flightModel, String carrierName, int seatCapacity) {
+	/*
+	 * No Args Constructor for FlightModel
+	 * All Args Constructor for FlightModel
+	 */
+
+	public Flight(long flightNumber, String carrierName, int seatCapacity) {
 		super();
 		this.flightNumber = flightNumber;
-		this.flightModel = flightModel;
 		this.carrierName = carrierName;
 		this.seatCapacity = seatCapacity;
 	}
 
 	public Flight() {
-		
+
 	}
 
 	public long getFlightNumber() {
@@ -25,14 +45,6 @@ public class Flight {
 
 	public void setFlightNumber(long flightNumber) {
 		this.flightNumber = flightNumber;
-	}
-
-	public String getFlightModel() {
-		return flightModel;
-	}
-
-	public void setFlightModel(String flightModel) {
-		this.flightModel = flightModel;
 	}
 
 	public String getCarrierName() {
@@ -50,7 +62,11 @@ public class Flight {
 	public void setSeatCapacity(int seatCapacity) {
 		this.seatCapacity = seatCapacity;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Flight [flightNumber=" + flightNumber + ", carrierName=" + carrierName + ", seatCapacity="
+				+ seatCapacity + "]";
+	}
+
 }
