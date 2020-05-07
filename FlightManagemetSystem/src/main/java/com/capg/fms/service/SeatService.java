@@ -7,5 +7,6 @@ public interface SeatService
 {
 	public BookedSeats newSeat(BookedSeats seat);
 	public BookedSeats getSeat(int seatnumber);
-	public List<BookedSeats> getAllSeat();
+	public List<BookedSeats> getAllSeat(int seatnumber);
+	
 }
