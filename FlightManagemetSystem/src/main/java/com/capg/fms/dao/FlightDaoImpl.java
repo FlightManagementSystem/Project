@@ -13,24 +13,66 @@ public class FlightDaoImpl implements FlightDao {
 	@PersistenceContext
 	EntityManager entityManager;	
 	
+	
+	/*
+	 * This method is used to add the flight from Flights Table.
+	 * Method 	 : addFlight
+	 * Type 	 : Flight
+	 * parameters: flight
+	 * Author 	 : Alok Singh Gaur
+	 * Date 	 : 04/05/2020
+	 * Version   : 1.0
+	 */
 	@Override
-	public void  addFlight(Flight flight) {	
+	public Flight  addFlight(Flight flight) {	
 		entityManager.persist(flight);
-		
+		return flight;	
 	}
 
+	
+	/*
+	 * This method is used to modify the flight from Flights Table.
+	 * Method 	 : updateFlight
+	 * Type 	 : Flight
+	 * parameters: flight
+	 * Author 	 : Alok Singh Gaur
+	 * Date 	 : 04/05/2020
+	 * Version   : 1.0
+	 */
+	
 	@Override
-	public void updateFlight(Flight flight) {
+	public Flight updateFlight(Flight flight) {
 		entityManager.getTransaction().begin();
 		entityManager.merge(flight);
 		entityManager.getTransaction().commit();
+		return flight;
 	}
 
+	
+	/*
+	 * This method is used to fetch the flight based on corresponding flightId from Flights Table.
+	 * Method 	 : retrieveFlight
+	 * Type 	 : Flight
+	 * parameters: retrieveFlight
+	 * Author 	 : Alok Singh Gaur
+	 * Date 	 : 04/05/2020
+	 * Version   : 1.0
+	 */
 	@Override
-	public Flight retrieveFlight(long flightNumber) {
-		return entityManager.find(Flight.class, flightNumber);
+	public Flight retrieveFlight(long retrieveFlight) {
+		return entityManager.find(Flight.class, retrieveFlight);
 	}
 
+	
+	/*
+	 * This method is used to fetch all the flight from Flights Table.
+	 * Method 	 : retrieveAllFlights
+	 * Type 	 : Flight
+	 * parameters: 
+	 * Author 	 : Alok Singh Gaur
+	 * Date 	 : 04/05/2020
+	 * Version   : 1.0
+	 */
 	@Override
 	public List<Flight> retrieveAllFlights() {
 		String query = "select flight from Flight ";
@@ -38,6 +80,16 @@ public class FlightDaoImpl implements FlightDao {
 		return fs.getResultList();	
 	}
 
+	
+	/*
+	 * This method is used to delete  the flight from Flights Table.
+	 * Method 	 : deleteFlight
+	 * Type 	 : boolean
+	 * parameters: flightNumber
+	 * Author 	 : Alok Singh Gaur
+	 * Date 	 : 04/05/2020
+	 * Version   : 1.0
+	 */
 	@Override
 	public boolean deleteFlight(long flightNumber) {
 		Flight flight = entityManager.find(Flight.class, flightNumber);
@@ -51,4 +103,3 @@ public class FlightDaoImpl implements FlightDao {
 		}
 	}
 }
-
