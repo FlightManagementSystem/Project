@@ -2,41 +2,34 @@ package com.capg.fms.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "Flights")
+@Table(name="Flights")
 public class Flight {
-	
-	/**
-	 * 
-	 */
-
 	@Id
-	@Size(min = 5, max = 10)
-	@Column(name="Flight_Number")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name="Flight_Id")
 	private long flightNumber;
-	@Column(name="Carrier_Name")
+	
+	@Column(name="carrier_name")
 	private String carrierName;
-	@Column(name="Seat_Capacity")
+	
+	@Column(name="seat_capacity")
 	private int seatCapacity;
 	
-	/*
-	 * No Args Constructor for FlightModel
-	 * All Args Constructor for FlightModel
-	 */
+	public Flight() {
+		super();
+	}
 
 	public Flight(long flightNumber, String carrierName, int seatCapacity) {
 		super();
 		this.flightNumber = flightNumber;
 		this.carrierName = carrierName;
 		this.seatCapacity = seatCapacity;
-	}
-
-	public Flight() {
-
 	}
 
 	public long getFlightNumber() {
@@ -69,4 +62,9 @@ public class Flight {
 				+ seatCapacity + "]";
 	}
 
+	
+	
+	
+	
+	
 }
