@@ -6,30 +6,34 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="Flights")
+@Table(name = "Flights")
 public class Flight {
-	@Id
+	
+	@Id 
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name="Flight_Id")
+	@Column(name="Flight_Number")
 	private long flightNumber;
-	
-	@Column(name="carrier_name")
+	@Column(name="Carrier_Name")
 	private String carrierName;
-	
-	@Column(name="seat_capacity")
+	@Column(name="Seat_Capacity")
 	private int seatCapacity;
 	
-	public Flight() {
-		super();
-	}
+	/*
+	 * No Args Constructor for FlightModel
+	 * All Args Constructor for FlightModel
+	 */
 
 	public Flight(long flightNumber, String carrierName, int seatCapacity) {
-		super();
 		this.flightNumber = flightNumber;
 		this.carrierName = carrierName;
 		this.seatCapacity = seatCapacity;
+	}
+
+	public Flight() {
+
 	}
 
 	public long getFlightNumber() {
@@ -62,9 +66,4 @@ public class Flight {
 				+ seatCapacity + "]";
 	}
 
-	
-	
-	
-	
-	
 }
