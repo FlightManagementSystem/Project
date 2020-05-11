@@ -87,10 +87,9 @@ public class FlightServiceImpl implements FlightService  {
 	 * Date 	 : 04/05/2020
 	 * Version   : 1.0
 	 */
+    
     @Override
     public boolean deleteFlight(long flightNumber) {
          return flightDao.deleteFlight(flightNumber); 
     }
   }
-
-
