@@ -4,6 +4,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Repository;
 import com.capg.fms.model.Flight;
 
@@ -59,8 +61,8 @@ public class FlightDaoImpl implements FlightDao {
 	 * Version   : 1.0
 	 */
 	@Override
-	public Flight retrieveFlight(long retrieveFlight) {
-		return entityManager.find(Flight.class, retrieveFlight);
+	public Flight retrieveFlight(long FlightNumber) {
+		return entityManager.find(Flight.class, FlightNumber);
 	}
 
 	
@@ -75,7 +77,7 @@ public class FlightDaoImpl implements FlightDao {
 	 */
 	@Override
 	public List<Flight> retrieveAllFlights() {
-		String query = "select flight from Flight ";
+		String query = "select f from Flight f";
 		TypedQuery<Flight> fs = entityManager.createQuery(query, Flight.class);
 		return fs.getResultList();	
 	}
