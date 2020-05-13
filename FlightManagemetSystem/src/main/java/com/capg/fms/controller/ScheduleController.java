@@ -1,6 +1,7 @@
 package com.capg.fms.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,20 +29,24 @@ public class ScheduleController {
 	 * Description: This is a GetMethod(Http) by "scheduleId" is used to get the schedule from the database.
 	 * Type 	  : ResponseEntity<List<Schedule>>
 	 * Parameters : scheduleId
-	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
+	 * Author 	  : Mahima Mishra 
 	 */
 	@GetMapping("/getScheduleById/{scheduleId}")
 	public Schedule getScheduleById(@PathVariable int scheduleId) throws ScheduleIdNotFoundException{
-		return scheduleService.getSchedule(scheduleId);
+		List<Schedule> list  = getAllSchedule();
+		Optional<Schedule> optional = list.stream().filter(f1->f1.getScheduleId()==scheduleId).findFirst();
+		if(optional.isPresent()) {
+			return scheduleService.getSchedule(scheduleId);
+	}
+		else
+			throw new ScheduleIdNotFoundException("Id doesn't exist");
 	}
 	
 	/* Method 	  : getAllSchedule
 	 * Description: This is a GetMethod(Http) by "scheduleId" is used to get all schedules from the database.
 	 * Type 	  : ResponseEntity<List<Schedule>>
 	 * Parameters : -
-	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
+	 * Author 	  : Mahima Mishra 
 	 */
 	@GetMapping("/getAllSchedule")
 	public List<Schedule> getAllSchedule(){
@@ -54,11 +59,16 @@ public class ScheduleController {
 	 * Type 	  : ResponseEntity<String>
 	 * Parameters : Schedule(Class)
 	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
 	 */
 	@PostMapping(value="/addSchedule")
-	public Schedule addSchedule(@RequestBody Schedule schedule) throws ScheduleIdExistsException {
-		return scheduleService.newSchedule(schedule);
+	public Schedule addSchedule(@RequestBody Schedule schedule) throws ScheduleIdExistsException{
+		List<Schedule> list  = getAllSchedule();
+		Optional<Schedule> optional = list.stream().filter(f1->f1.getScheduleId()==schedule.getScheduleId()).findFirst();
+		if(optional.isPresent()) {
+			return scheduleService.newSchedule(schedule);
+	}
+		else
+			throw new ScheduleIdExistsException("This id already exists");
 		}
 	
 	/* Method 	  : updateSchedule
@@ -66,7 +76,6 @@ public class ScheduleController {
 	 * Type 	  : ResponseEntity<String>
 	 * Parameters : Schedule(Class)
 	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
 	 */
 	@PutMapping("/updateSchedule")
 	public String updateSchedule(@RequestBody Schedule schedule) {
@@ -79,7 +88,6 @@ public class ScheduleController {
 	 * Type 	  : ResponseEntity<String>
 	 * Parameters : scheduleId
 	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
 	 */
 	@DeleteMapping("/deleteSchedule/{scheduleId}")
 	public boolean deleteSchedule(@PathVariable int scheduleId) {
