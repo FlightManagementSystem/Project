@@ -22,7 +22,7 @@ import com.capg.fms.model.ScheduledFlights;
 import com.capg.fms.service.ScheduledFlightsService;
 
 @RestController
-@RequestMapping("/scheduledFlights")
+@RequestMapping("/fms")
 public class ScheduledFlightsController {
 	@Autowired
 	private ScheduledFlightsService scheduledFlightsService;
@@ -32,11 +32,10 @@ public class ScheduledFlightsController {
 	 * Type 	  : ResponseEntity<List<ScheduledFlights>>
 	 * Parameters : scheduleId
 	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
 	 */
-	@GetMapping("/getScheduledFlightById/{scheduleId}")
-	public List<ScheduledFlights> getScheduledFlightById(@PathVariable int scheduleId) throws ScheduleIdNotFoundException{
-		return scheduledFlightsService.getScheduledFlight(scheduleId);
+	@GetMapping("/getScheduledFlightById/{serialNo}")
+	public ScheduledFlights getScheduledFlightById(@PathVariable int serialNo){
+		return scheduledFlightsService.getScheduledFlight(serialNo);
 	}
 	//
 	/* Method 	  : getAllScheduledFlights
@@ -44,9 +43,8 @@ public class ScheduledFlightsController {
 	 * Type 	  : ResponseEntity<List<ScheduledFlights>>
 	 * Parameters : -
 	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
 	 */
-	@GetMapping("/flights")
+	@GetMapping("/getAllScheduledFlight")
 	public List<ScheduledFlights> getAllScheduledFlights(){
 		return scheduledFlightsService.getAllScheduledFlights();
 	}
@@ -56,10 +54,9 @@ public class ScheduledFlightsController {
 	 * Type 	  : ResponseEntity<List<Schedule>>
 	 * Parameters : source and destination
 	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
 	 */
-	@GetMapping("/getFlightSchedule")
-	public List<Schedule> getFlightSchedule(@PathVariable String source,@PathVariable String destination) {
+	@GetMapping("/getFlightSchedule/{source}/{destination}")
+	public List<ScheduledFlights> getFlightSchedule(@PathVariable String source,@PathVariable String destination) {
 		return scheduledFlightsService.getScheduledFlight(source, destination);
 	}
 	
@@ -68,12 +65,10 @@ public class ScheduledFlightsController {
 	 * Type 	  : ResponseEntity<String>
 	 * Parameters : Schedule(Class)
 	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
 	 */
 	@PostMapping("/addScheduledFlight")
-	public String addScheduledFlight(@RequestBody ScheduledFlights sflight) throws ScheduleIdExistsException {
-		scheduledFlightsService.newScheduledFlights(sflight);
-		return "Flight Schedule added successfully";
+	public ScheduledFlights addScheduledFlight(@RequestBody ScheduledFlights sflight){
+		return scheduledFlightsService.newScheduledFlights(sflight);
 	}
 	
 	/* Method 	  : modifyScheduledFlight
@@ -81,7 +76,6 @@ public class ScheduledFlightsController {
 	 * Type 	  : ResponseEntity<String>
 	 * Parameters : ScheduledFlights(Class)
 	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
 	 */
 	@PutMapping("/modifySchdeuledFlight")
 	public String modifyScheduledFlight(@RequestBody ScheduledFlights sflight) {
@@ -94,12 +88,11 @@ public class ScheduledFlightsController {
 	 * Type 	  : ResponseEntity<String>
 	 * Parameters : scheduleId
 	 * Author 	  : Mahima Mishra
-	 * Version 	  : 
 	 */
-	@DeleteMapping("/deleteScheduledFlight/{scheduleId}")
-	public ResponseEntity<String> deleteScheduledFlight(@PathVariable int scheduleId) {
-		scheduledFlightsService.deleteScheduledFlights(scheduleId);
-		return new ResponseEntity<String>("Flight Schedule with schedule Id:"+scheduleId+"deleted successfully",HttpStatus.OK);
+	@DeleteMapping("/deleteScheduledFlight/{serialNo}")
+	public String deleteScheduledFlight(@PathVariable int serialNo) {
+		scheduledFlightsService.deleteScheduledFlights(serialNo);
+		return "Flight Schedule with schedule Id:"+serialNo+"deleted successfully";
 	}
 	
 	
