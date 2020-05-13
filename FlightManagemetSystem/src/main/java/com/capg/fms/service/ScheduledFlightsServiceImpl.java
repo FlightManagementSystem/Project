@@ -26,17 +26,11 @@ public class ScheduledFlightsServiceImpl implements ScheduledFlightsService{
 	 * Type:boolean
 	 * Parameter:sflight
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
-	public boolean newScheduledFlights(ScheduledFlights sflight) throws ScheduleIdExistsException {
-		List<ScheduledFlights> list = getAllScheduledFlights();
-		Optional<ScheduledFlights> optional = list.stream().filter(f1->f1.getSchedule()==sflight.getSchedule()).findFirst();
-		if(optional.isPresent()) {
-			return scheduledFlightsDao.addScheduledFlights(sflight);
-		}
-		else
-			throw new ScheduleIdExistsException("This id is already taken");
+	public ScheduledFlights newScheduledFlights(ScheduledFlights sflight) {
+		scheduledFlightsDao.addScheduledFlights(sflight);
+		return sflight;
 	}
 
 	/* Method:getScheduledFlights
@@ -44,10 +38,9 @@ public class ScheduledFlightsServiceImpl implements ScheduledFlightsService{
 	 * Type:List<Schedule>
 	 * Parameters:source and destination
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
-	public List<Schedule> getScheduledFlight(String source, String destination) {
+	public List<ScheduledFlights> getScheduledFlight(String source, String destination) {
 		return scheduledFlightsDao.retrieveScheduledFlights(source, destination);
 	}
 	
@@ -56,7 +49,6 @@ public class ScheduledFlightsServiceImpl implements ScheduledFlightsService{
 	 * Type:List<ScheduledFlights>
 	 * Parameter:-
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
 	public List<ScheduledFlights> getAllScheduledFlights() {
@@ -68,17 +60,10 @@ public class ScheduledFlightsServiceImpl implements ScheduledFlightsService{
 	 * Type:List<ScheduledFlights>
 	 * Parameter:scheduleId
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
-	public List<ScheduledFlights> getScheduledFlight(int scheduleId) throws ScheduleIdNotFoundException {
-		List<ScheduledFlights> list = getAllScheduledFlights();
-		Optional<ScheduledFlights> optional = list.stream().filter(f1->f1.getSchedule().getScheduleId()==scheduleId).findFirst();
-		if(optional.isPresent()) {
-			return scheduledFlightsDao.retrieveScheduledFlight(scheduleId);
-		}
-		else
-			throw new ScheduleIdNotFoundException("Id doesn't exist");
+	public ScheduledFlights getScheduledFlight(int serialNo) {
+		return scheduledFlightsDao.retrieveScheduledFlight(serialNo);
 	}
 	
 	/* Method:modifyScheduledFlights
@@ -86,7 +71,6 @@ public class ScheduledFlightsServiceImpl implements ScheduledFlightsService{
 	 * Type:boolean
 	 * Parameter:sflight
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
 	public boolean modifyScheduledFlights(ScheduledFlights sflight) {
@@ -98,7 +82,6 @@ public class ScheduledFlightsServiceImpl implements ScheduledFlightsService{
 	 * Type:boolean
 	 * Parameter:scheduleId
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
 	public boolean deleteScheduledFlights(int scheduleId) {
