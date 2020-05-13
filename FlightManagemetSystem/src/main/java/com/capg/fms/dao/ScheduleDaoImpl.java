@@ -20,7 +20,6 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	 * Type:boolean
 	 * Parameter:Schedule
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
 	public Schedule addSchedule(Schedule schedule) {
@@ -33,7 +32,6 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	 * Type:List<Schedule>
 	 * Parameter:scheduleId
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
 	public Schedule retrieveSchedule(int scheduleId) {
@@ -45,7 +43,6 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	 * Type:List<Schedule>
 	 * Parameter:-
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
 	public List<Schedule> retrieveAllSchedule() {
@@ -59,7 +56,6 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	 * Type:boolean
 	 * Parameter:Schedule
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */	
 	@Override
 	public boolean updateSchedule(Schedule schedule) {
@@ -74,7 +70,6 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		 * Type:boolean
 		 * Parameter:scheduleId
 		 * Author Name:Mahima Mishra
-		 * Version:
 		 */
 	@Override
 	public boolean deleteSchedule(int scheduleid) {
