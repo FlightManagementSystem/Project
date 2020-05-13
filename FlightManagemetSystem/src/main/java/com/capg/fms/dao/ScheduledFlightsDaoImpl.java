@@ -7,8 +7,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
+import com.capg.fms.model.Flight;
 import com.capg.fms.model.Schedule;
 import com.capg.fms.model.ScheduledFlights;
 
@@ -23,12 +25,11 @@ public class ScheduledFlightsDaoImpl implements ScheduledFlightsDao{
 	 * Type:boolean
 	 * Parameter:ScheduledFlights
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
-	public boolean addScheduledFlights(ScheduledFlights sflight) {
+	public ScheduledFlights addScheduledFlights(ScheduledFlights sflight) {
 		entityManager.persist(sflight);
-		return true;
+		return sflight;
 	}
 	
 	/* Method:retrieveScheduledFlights
@@ -36,12 +37,11 @@ public class ScheduledFlightsDaoImpl implements ScheduledFlightsDao{
 	 * Type:List<Schedule>
 	 * Parameters:source and destination
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Schedule> retrieveScheduledFlights(String source, String destination) {
-		Query query = entityManager.createQuery("select s.scheduleId,s.source,s.destination,s.arrivaltime,s.departuretime,f.flightNumber,f.carrierName,f.seatCapacity from Schedule s INNER JOIN ScheduledFlights sf ON s.scheduleId=sf.scheduleId INNER JOIN Flight f on sf.flightId=f.flightNumber where s.source="+source+"AND s.destination="+destination);
+	public List<ScheduledFlights> retrieveScheduledFlights(String source, String destination) {
+		Query query = entityManager.createQuery("select s.scheduleId,s.source,s.destination,s.arrivaltime,s.departuretime,f.flightNumber,f.carrierName,f.seatCapacity from Schedule s JOIN ScheduledFlights sf ON s.scheduleId=sf.scheduleId JOIN Flight f on sf.flightId=f.flightNumber where schedule.source= :source AND schedule.destination=:destination");
 		return query.getResultList();
 	}
 	
@@ -50,14 +50,13 @@ public class ScheduledFlightsDaoImpl implements ScheduledFlightsDao{
 	 * Type:List<ScheduledFlights>
 	 * Parameter:-
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 
 	@Override
-	public List<ScheduledFlights> retrieveAllScheduledFlights() {
-		String query = "select s.serialNo,s.schedule,s.flight from ScheduledFlights s";
-		TypedQuery<ScheduledFlights> q = entityManager.createQuery(query, ScheduledFlights.class);
-		return q.getResultList();
+	public List<ScheduledFlights> retrieveAllScheduledFlights() {	
+		TypedQuery<ScheduledFlights> query = entityManager.createQuery("select s from ScheduledFlights s, Flight f,Schedule sc where s.flight = f and s.schedule=sc",ScheduledFlights.class);
+		List<ScheduledFlights> flights = query.getResultList();
+		return flights;
 	}
 	
 	/* Method:retriveScheduledFlight
@@ -65,12 +64,10 @@ public class ScheduledFlightsDaoImpl implements ScheduledFlightsDao{
 	 * Type:List<ScheduledFlights>
 	 * Parameter:scheduleId
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
-	@SuppressWarnings("unchecked")
-	public List<ScheduledFlights> retrieveScheduledFlight(int scheduleId){
-		Query query = entityManager.createQuery("select s from ScheduledFlights s where Schedule Id="+scheduleId);
-		return query.getResultList();
+	@Override
+	public ScheduledFlights retrieveScheduledFlight(int serialNo){
+		return entityManager.find(ScheduledFlights.class, serialNo);
 	}
 	
 	/* Method:updateScheduledFlights
@@ -78,7 +75,6 @@ public class ScheduledFlightsDaoImpl implements ScheduledFlightsDao{
 	 * Type:boolean
 	 * Parameter:ScheduledFlights
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
 	public boolean updateScheduledFlights(ScheduledFlights sflight) {
@@ -93,11 +89,10 @@ public class ScheduledFlightsDaoImpl implements ScheduledFlightsDao{
 	 * Type:boolean
 	 * Parameter:scheduleId
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
-	public boolean deleteScheduledFlights(int scheduleId) {
-		ScheduledFlights sflight =entityManager.find(ScheduledFlights.class, scheduleId);
+	public boolean deleteScheduledFlights(int serialNo) {
+		ScheduledFlights sflight =entityManager.find(ScheduledFlights.class, serialNo);
 		if(sflight !=null)
 		{
 			entityManager.remove(sflight);
