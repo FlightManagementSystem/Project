@@ -26,17 +26,11 @@ public class ScheduleServiceImpl implements ScheduleService{
 	 * Type:boolean
 	 * Parameter:Schedule
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
-	public Schedule newSchedule(Schedule schedule) throws ScheduleIdExistsException{
-		List<Schedule> list = getAllSchedule();
-		Optional<Schedule> optional = list.stream().filter(f1->f1.getScheduleId()==schedule.getScheduleId()).findFirst();
-		if(optional.isPresent()) {
-			return scheduleDao.addSchedule(schedule);
-		}
-		else
-			throw new ScheduleIdExistsException("This id is already taken");
+	public Schedule newSchedule(Schedule schedule){
+		scheduleDao.addSchedule(schedule);
+		return schedule;
 	}
 
 	/* Method:getSchedule
@@ -44,17 +38,10 @@ public class ScheduleServiceImpl implements ScheduleService{
 	 * Type:List<Schedule>
 	 * Parameter:scheduleId
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
-	public Schedule getSchedule(int scheduleId) throws ScheduleIdNotFoundException{
-		List<Schedule> list  = getAllSchedule();
-		Optional<Schedule> optional = list.stream().filter(f1->f1.getScheduleId()==scheduleId).findFirst();
-		if(optional.isPresent()) {
-			return scheduleDao.retrieveSchedule(scheduleId);
-	}
-		else
-			throw new ScheduleIdNotFoundException("Id doesn't exist");
+	public Schedule getSchedule(int scheduleId){
+		return scheduleDao.retrieveSchedule(scheduleId);
 			
 	}
 
@@ -63,7 +50,6 @@ public class ScheduleServiceImpl implements ScheduleService{
 	 * Type:List<Schedule>
 	 * Parameter:-
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
 	public List<Schedule> getAllSchedule() {
@@ -75,7 +61,6 @@ public class ScheduleServiceImpl implements ScheduleService{
 	 * Type:boolean
 	 * Parameter:Schedule
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */	
 	@Override
 	public boolean modifySchedule(Schedule schedule) {
@@ -88,11 +73,10 @@ public class ScheduleServiceImpl implements ScheduleService{
 	 * Type:boolean
 	 * Parameter:scheduleId
 	 * Author Name:Mahima Mishra
-	 * Version:
 	 */
 	@Override
-	public boolean deleteSchedule(int scheduleid) {
-		return scheduleDao.deleteSchedule(scheduleid);
+	public boolean deleteSchedule(int serialNo) {
+		return scheduleDao.deleteSchedule(serialNo);
 	}
 
 	
